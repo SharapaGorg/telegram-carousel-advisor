@@ -1,0 +1,208 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:UNB;font-weight:900;src:url(../node_modules/@fontsource/unbounded/files/unbounded-cyrillic-900-normal.woff2)}
+@font-face{font-family:UNB;font-weight:900;src:url(../node_modules/@fontsource/unbounded/files/unbounded-latin-900-normal.woff2);unicode-range:U+0000-00FF,U+2000-206F,U+20BD}
+@font-face{font-family:UNB;font-weight:700;src:url(../node_modules/@fontsource/unbounded/files/unbounded-cyrillic-700-normal.woff2)}
+@font-face{font-family:UNB;font-weight:700;src:url(../node_modules/@fontsource/unbounded/files/unbounded-latin-700-normal.woff2);unicode-range:U+0000-00FF,U+2000-206F,U+20BD}
+@font-face{font-family:MONO;font-weight:400;src:url(../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-cyrillic-400-normal.woff2)}
+@font-face{font-family:MONO;font-weight:400;src:url(../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2);unicode-range:U+0000-00FF,U+2000-206F,U+20BD,U+2190-21FF,U+2713-2717}
+@font-face{font-family:MONO;font-weight:700;src:url(../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-cyrillic-700-normal.woff2)}
+@font-face{font-family:MONO;font-weight:700;src:url(../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2);unicode-range:U+0000-00FF,U+2000-206F,U+20BD,U+2190-21FF,U+2713-2717}
+:root{--ink:#0E0D0C;--card:#171513;--paper:#EDE8DE;--orange:#D4683F;--ash:#8F887E;--char:#2E2A26}
+body{margin:0;background:#333;display:flex;flex-direction:column;gap:20px}
+.slide{position:relative;width:1080px;height:1080px;overflow:hidden;background:var(--ink);color:var(--paper);font-family:MONO;box-sizing:border-box}
+.slide::after{content:"";position:absolute;right:-260px;bottom:-260px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(212,104,63,.16),transparent 65%);pointer-events:none}
+.top{position:absolute;left:72px;right:72px;top:64px;display:flex;justify-content:space-between;align-items:center;font-size:26px;color:var(--ash);z-index:2}
+.brand{font-family:UNB;font-weight:700;font-size:26px;letter-spacing:.12em;color:var(--paper);display:flex;align-items:center;gap:14px}
+.brand::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--orange)}
+.wrap{position:absolute;left:72px;right:72px;top:176px;z-index:2}
+.num{font-size:28px;font-weight:700;color:var(--orange);letter-spacing:.06em;display:flex;align-items:center;gap:18px;margin-bottom:30px}
+.num::after{content:"";width:80px;height:3px;background:var(--orange)}
+h1{font-family:UNB;font-weight:900;font-size:80px;line-height:1.04;letter-spacing:-.035em;margin:0;text-transform:uppercase}
+h1 em{font-style:normal;color:var(--orange)}
+.lead{font-size:34px;line-height:1.45;margin:30px 0 0;color:var(--paper);max-width:900px}
+.note{position:absolute;left:72px;right:72px;bottom:60px;font-size:21px;line-height:1.45;color:var(--ash);z-index:2}
+.viz{position:absolute;left:72px;right:72px;z-index:2}
+
+/* bars */
+.bar{display:flex;align-items:center;gap:24px;margin-bottom:30px}
+.bar .lbl{width:210px;flex:none;font-size:30px;font-weight:700}
+.bar .track{flex:1;height:96px;position:relative}
+.bar .fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding:0 26px;box-sizing:border-box;font-family:UNB;font-weight:900;font-size:42px;letter-spacing:-.02em;white-space:nowrap}
+.bar .fill.us{background:var(--orange);color:var(--ink)}
+.bar .fill.them{background:var(--char);color:var(--paper)}
+.bar .fill.short{justify-content:flex-start}
+.bar .out{position:absolute;top:0;bottom:0;display:flex;align-items:center;font-family:UNB;font-weight:900;font-size:42px;letter-spacing:-.02em;white-space:nowrap}
+
+/* cover list */
+.list{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px}
+.list div{font-size:29px;display:flex;gap:16px;align-items:baseline;border-top:2px solid var(--char);padding-top:16px}
+.list b{color:var(--orange);font-weight:700}
+
+/* bank card */
+.bank{width:440px;height:270px;border-radius:26px;background:var(--card);border:3px solid var(--char);position:relative;padding:34px 38px;box-sizing:border-box}
+.bank .chip{width:70px;height:52px;border-radius:10px;background:#3A342E}
+.bank .digits{position:absolute;left:38px;bottom:40px;font-size:34px;letter-spacing:.12em;color:var(--ash)}
+.bank .x{position:absolute;right:-34px;top:-34px;width:104px;height:104px;border-radius:50%;background:var(--orange);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:UNB;font-weight:900;font-size:58px;line-height:1}
+.steps{display:flex;flex-direction:column;gap:20px;justify-content:center}
+.step{font-size:30px;padding:18px 26px;border:3px solid var(--char);display:flex;gap:18px;align-items:center}
+.step b{color:var(--orange)}
+.step.hot{border-color:var(--orange)}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.tile{aspect-ratio:3/4;background:var(--card);border:3px solid var(--char);position:relative;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px;box-sizing:border-box}
+.tile .m{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:MONO;font-weight:700;font-size:38px}
+.tile.ok{border-color:var(--orange)}
+.tile.ok .m{background:var(--orange);color:var(--ink)}
+.tile.no{opacity:.45}
+.tile.no .m{border:3px solid var(--ash);color:var(--ash)}
+.tile span{font-size:18px;color:var(--ash)}
+
+/* search */
+.search{display:flex;height:120px;border:3px solid var(--paper);background:var(--card)}
+.search .q{flex:1;display:flex;align-items:center;gap:22px;padding:0 32px;font-size:36px}
+.search .q i{font-style:normal;color:var(--ash)}
+.search .caret{width:4px;height:48px;background:var(--orange)}
+.search .go{width:230px;background:var(--orange);color:var(--ink);font-family:UNB;font-weight:900;font-size:34px;display:flex;align-items:center;justify-content:center}
+.tags{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+.tags span{font-size:26px;padding:10px 18px;border:2px solid var(--char);color:var(--ash)}
+
+/* coupons */
+.coupons{display:flex;gap:28px}
+.coupon{flex:1;height:380px;border:3px dashed var(--orange);position:relative;padding:34px 34px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
+.coupon.alt{border-color:var(--paper)}
+.coupon .pct{font-family:UNB;font-weight:900;font-size:96px;letter-spacing:-.04em;line-height:1;color:var(--orange)}
+.coupon.alt .pct{color:var(--paper)}
+.coupon .code{font-size:24px;color:var(--ash)}
+.coupon .code b{display:inline-block;margin-top:8px;font-size:38px;color:var(--paper);letter-spacing:.06em}
+.coupon .who{font-size:26px;line-height:1.35}
+
+/* final */
+.url{display:flex;align-items:center;height:132px;border:3px solid var(--orange);padding:0 36px;gap:20px;background:var(--card)}
+.url i{font-style:normal;font-size:34px;color:var(--ash)}
+.url b{font-family:UNB;font-weight:900;font-size:62px;letter-spacing:-.03em}
+</style></head><body>
+
+<!-- 1. обложка -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>01 / 08</span></div>
+  <div class="wrap" style="top:200px">
+    <div class="num">СРАВНИЛИ С TRENDSEE</div>
+    <h1 style="font-size:96px">6 причин<br>выбрать<br><em>Writelo</em></h1>
+  </div>
+  <div class="viz list" style="top:700px">
+    <div><b>01</b>дешевле в разы</div>
+    <div><b>02</b>карта без поддержки</div>
+    <div><b>03</b>ручной отбор</div>
+    <div><b>04</b>бесплатный поиск</div>
+    <div><b>05</b>скидки до 30%</div>
+    <div><b>06</b>больше анализов</div>
+  </div>
+</section>
+
+<!-- 2. цена -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>02 / 08</span></div>
+  <div class="wrap">
+    <div class="num">01</div>
+    <h1>Дешевле<br><em>в 4,7 раза</em></h1>
+    <p class="lead">Месяц подписки:</p>
+  </div>
+  <div class="viz" style="top:580px">
+    <div class="bar"><span class="lbl">Writelo</span><div class="track"><div class="fill us" style="width:21.2%"></div><span class="out" style="left:calc(21.2% + 24px);color:var(--orange)">699 ₽</span></div></div>
+    <div class="bar"><span class="lbl">Trendsee</span><div class="track"><div class="fill them" style="width:100%">3 300 ₽</div></div></div>
+  </div>
+  <div class="note">Writelo «Нос по ветру» и Trendsee «Аналитика контента» при помесячной оплате. Цены с writelo.io и trendsee.io на ноябрь 2026.</div>
+</section>
+
+<!-- 3. карта -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>03 / 08</span></div>
+  <div class="wrap">
+    <div class="num">02</div>
+    <h1>Карту отвязываешь<br><em>сам</em></h1>
+    <p class="lead">В любой момент, прямо в интерфейсе, в пару кликов. Писать в техподдержку не нужно.</p>
+  </div>
+  <div class="viz" style="top:720px;display:flex;gap:70px;align-items:center">
+    <div class="bank"><div class="chip"></div><div class="digits">•••• •••• 4821</div><div class="x">×</div></div>
+    <div class="steps">
+      <div class="step"><b>✓</b>без писем</div>
+      <div class="step"><b>✓</b>без ожидания</div>
+      <div class="step hot"><b>✓</b>пара кликов</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ручной отбор -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>04 / 08</span></div>
+  <div class="wrap">
+    <div class="num">03</div>
+    <h1>Рилсы отбираем<br><em>вручную</em></h1>
+    <p class="lead">Каждый день СММ-команда отбирает 100 роликов. Случайных видео, которые просто набрали охваты, в каталоге нет.</p>
+  </div>
+  <div class="viz tiles" style="top:760px">
+    <div class="tile ok"><div class="m">✓</div></div>
+    <div class="tile no"><div class="m">×</div></div>
+    <div class="tile ok"><div class="m">✓</div></div>
+    <div class="tile ok"><div class="m">✓</div></div>
+    <div class="tile no"><div class="m">×</div></div>
+    <div class="tile ok"><div class="m">✓</div></div>
+  </div>
+</section>
+
+<!-- 5. поиск -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>05 / 08</span></div>
+  <div class="wrap">
+    <div class="num">04</div>
+    <h1>Поиск<br><em>бесплатный</em></h1>
+    <p class="lead">Зарегистрируйся и введи свою тему. Сразу увидишь, есть ли у нас нужные ролики. Лимита на запросы нет.</p>
+  </div>
+  <div class="viz" style="top:700px">
+    <div class="search"><div class="q">рилсы для кофейни<span class="caret"></span></div><div class="go">Найти</div></div>
+    <div class="tags"><span>бьюти</span><span>фитнес</span><span>недвижимость</span><span>свой бизнес</span></div>
+  </div>
+</section>
+
+<!-- 6. скидки -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>06 / 08</span></div>
+  <div class="wrap">
+    <div class="num">05</div>
+    <h1>Скидки<br><em>до 30%</em></h1>
+  </div>
+  <div class="viz coupons" style="top:520px">
+    <div class="coupon"><div class="pct">−25%</div><div class="code">промокод<br><b>ПУСК</b></div><div class="who">для новых пользователей</div></div>
+    <div class="coupon alt"><div class="pct">−30%</div><div class="code">промокод<br><b>ЛУЧШИЕ</b></div><div class="who">до конца ноября</div></div>
+  </div>
+</section>
+
+<!-- 7. анализы -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>07 / 08</span></div>
+  <div class="wrap">
+    <div class="num">06</div>
+    <h1>Больше<br><em>анализов видео</em></h1>
+    <p class="lead">Разборов в месяц на базовом тарифе:</p>
+  </div>
+  <div class="viz" style="top:580px">
+    <div class="bar"><span class="lbl">Writelo</span><div class="track"><div class="fill us" style="width:100%">250</div></div></div>
+    <div class="bar"><span class="lbl">Trendsee</span><div class="track"><div class="fill them" style="width:72%">≈180</div></div></div>
+  </div>
+  <div class="note">Writelo «Нос по ветру»: 250 анализов видео в месяц. Trendsee «Аналитика контента»: 2 500 токенов, их хватает примерно на 180 разборов.</div>
+</section>
+
+<!-- 8. финал -->
+<section class="slide">
+  <div class="top"><span class="brand">WRITELO</span><span>08 / 08</span></div>
+  <div class="wrap" style="top:220px">
+    <h1 style="font-size:84px">Обо всём<br>в одном рилсе<br><em>не расскажешь</em></h1>
+    <p class="lead">Так что подписывайся: по каждому пункту расскажу подробнее.</p>
+  </div>
+  <div class="viz" style="top:720px">
+    <div class="url"><i>https://</i><b>writelo.io</b></div>
+  </div>
+</section>
+
+</body></html>
